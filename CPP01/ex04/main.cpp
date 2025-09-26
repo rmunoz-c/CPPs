@@ -16,7 +16,6 @@
 
 int main(int argc, char **argv)
 {
-	
 	if (argc != 4)
 	{
 		std::cerr << "Usage: " << argv[0] << " <filename> <s1> <s2>" << std::endl;
@@ -25,7 +24,13 @@ int main(int argc, char **argv)
 	std::string filename = argv[1];
 	std::string s1 = argv[2];
 	std::string s2 = argv[3];
+	if (s1.empty())
+	{
+		std::cerr << "s1 cannot be empty" << std::endl;
+		return (1);
+	}
 	std::string line;
+	std::string nextLine;
 	std::ifstream infile(filename.c_str());
 	if (!infile)
 	{
@@ -38,15 +43,28 @@ int main(int argc, char **argv)
 		std::cerr << "Error: could not open file '" << filename << ".replace' for writing" << std::endl;
 		return (1);
 	}
-	while (std::getline(infile, line))
-	{
+	if (std::getline(infile, line)){
+		if (line == "\0")
+			 outfile << std::endl;
+		while (std::getline(infile, nextLine))
+		{
+			std::cout << "hola" << std::endl;
+			std::string::size_type pos = 0;
+			while ((pos = line.find(s1, pos)) != std::string::npos)
+			{
+				line = line.substr(0, pos) + s2 + line.substr(pos + s1.length());
+				pos += s2.length();
+			}
+			outfile << line << std::endl;
+			line = nextLine;
+		}
 		std::string::size_type pos = 0;
 		while ((pos = line.find(s1, pos)) != std::string::npos)
 		{
 			line = line.substr(0, pos) + s2 + line.substr(pos + s1.length());
 			pos += s2.length();
 		}
-		outfile << line << std::endl;
+		outfile << line;
 	}
 	return (0);
 }
