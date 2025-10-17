@@ -32,12 +32,8 @@ Fixed::Fixed(const int n)
 
 Fixed::Fixed(const float f)
 {
-	std::cout << "Float constructor called" << std::endl;
-	float scaled = f * (1 << _fractionalBits);
-    if (f >= 0)
-        _fixedPointValue = static_cast<int>(scaled + 0.5f);
-    else
-        _fixedPointValue = static_cast<int>(scaled - 0.5f);
+    std::cout << "Float constructor called" << std::endl;
+    _fixedPointValue = static_cast<int>(roundf(f * (1 << _fractionalBits)));
 }
 
 Fixed::Fixed(const Fixed &other)
@@ -138,28 +134,28 @@ Fixed Fixed::operator/(const Fixed &other) const
 
 Fixed &Fixed::operator++()
 {
-	_fixedPointValue++;
-	return (*this);
+    _fixedPointValue += (1 << _fractionalBits);
+    return (*this);
 }
 
 Fixed Fixed::operator++(int)
 {
-	Fixed temp(*this);
-	_fixedPointValue++;
-	return (temp);
+    Fixed temp(*this);
+    _fixedPointValue += (1 << _fractionalBits);
+    return (temp);
 }
 
 Fixed &Fixed::operator--()
 {
-	_fixedPointValue--;
-	return (*this);
+    _fixedPointValue -= (1 << _fractionalBits);
+    return (*this);
 }
 
 Fixed Fixed::operator--(int)
 {
-	Fixed temp(*this);
-	_fixedPointValue--;
-	return (temp);
+    Fixed temp(*this);
+    _fixedPointValue -= (1 << _fractionalBits);
+    return (temp);
 }
 
 Fixed &Fixed::min(Fixed &a, Fixed &b)
