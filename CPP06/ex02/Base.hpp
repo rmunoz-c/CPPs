@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Serializer.hpp                                     :+:      :+:    :+:   */
+/*   Base.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmunoz-c <rmunoz-c@student.42.fr>          #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026-03-09 18:36:32 by rmunoz-c          #+#    #+#             */
-/*   Updated: 2026-03-09 18:36:32 by rmunoz-c         ###   ########.fr       */
+/*   Created: 2026-03-11 17:53:14 by rmunoz-c          #+#    #+#             */
+/*   Updated: 2026-03-11 17:53:14 by rmunoz-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERIALIZER_HPP
-# define SERIALIZER_HPP
+#ifndef BASE_HPP
+# define BASE_HPP
 
-# include <stdint.h>
-# include "Data.hpp"
-
-class Serializer
+class Base
 {
-	private:
-		Serializer();
-		Serializer(const Serializer &other);
-		Serializer &operator=(const Serializer &other);
-		~Serializer();
-
 	public:
-		static uintptr_t	serialize(Data *ptr);
-		static Data*		deserialize(uintptr_t raw);
+		virtual ~Base();
 };
+
+class A : public Base {};
+class B : public Base {};
+class C : public Base {};
+
+Base	*generate(void);
+void	identify(Base *p);
+void	identify(Base &p);
 
 #endif
